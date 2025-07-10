@@ -1,1 +1,54 @@
+# Stock Portfolio Tracker
+# Goal: Build a simple stock tracker that calculates total investment based on manually defined stock prices.
+
+# Hardcoded dictionary of stock prices
+stock_prices = {
+    "AAPL": 180,  # Apple
+    "TSLA": 250,  # Tesla
+    "GOOGL": 2700,  # Alphabet
+    "AMZN": 3300,  # Amazon
+}
+
+def get_user_input():
+    """Get stock names and quantities from the user."""
+    portfolio = {}
+    while True:
+        stock_name = input("Enter stock name (or type 'done' to finish): ").upper()
+        if stock_name == 'DONE':
+            break
+        if stock_name in stock_prices:
+            quantity = int(input(f"Enter quantity for {stock_name}: "))
+            portfolio[stock_name] = quantity
+        else:
+            print(f"Stock {stock_name} not found. Please enter a valid stock name.")
+    return portfolio
+
+def calculate_investment(portfolio):
+    """Calculate the total investment value."""
+    total_investment = 0
+    for stock, quantity in portfolio.items():
+        price = stock_prices[stock]
+        total_investment += price * quantity
+    return total_investment
+
+def save_to_file(total_investment, filename='portfolio.txt'):
+    """Save the total investment value to a file."""
+    with open(filename, 'w') as file:
+        file.write(f'Total Investment Value: ${total_investment:.2f}\n')
+
+def main():
+    """Main function to execute the stock portfolio tracker."""
+    print("Welcome to Stock Portfolio Tracker")
+    portfolio = get_user_input()
+    total_investment = calculate_investment(portfolio)
+    print(f'Total Investment Value: ${total_investment:.2f}')
+    
+    save_option = input("Would you like to save the result to a file? (yes/no): ").strip().lower()
+    if save_option == 'yes':
+        filename = input("Enter filename (without extension, '.txt' will be added): ") + '.txt'
+        save_to_file(total_investment, filename)
+        print(f'Result saved to {filename}.')
+
+if __name__ == "__main__":
+    main()
 
